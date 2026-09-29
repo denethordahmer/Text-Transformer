@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Text Transformer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="toolApp">
+
+  <header class="toolTopBar">
+    <h1 class="toolTitle">Text Transformer</h1>
+    <button id="btnClearTop" class="toolAction">Clear</button>
+  </header>
+
+  <main class="toolView">
+
+    <!-- ============ INPUT ============ -->
+    <section class="group">
+      <div class="groupTitle">Input</div>
+
+      <div class="fieldRow">
+        <label for="modeSelect">Mode</label>
+        <select id="modeSelect">
+          <option value="rewrite" selected>Rewrite Text</option>
+          <option value="prompt">Optimise as Prompt</option>
+        </select>
+      </div>
+
+      <!-- REWRITE MODE OPTIONS -->
+      <div class="fieldRow" id="rewriteStyleRow">
+        <label for="rewriteStyle">Style</label>
+        <select id="rewriteStyle">
+          <optgroup label="Common / Everyday">
+            <option value="casual">Casual</option>
+            <option value="concise" selected>Concise</option>
+            <option value="expand">Expand</option>
+            <option value="persuasive">Persuasive</option>
+          </optgroup>
+          <optgroup label="Professional Registers">
+            <option value="academic">Academic</option>
+            <option value="journalistic">Journalistic</option>
+            <option value="technical_manual">Technical Manual</option>
+            <option value="corporate">Corporate</option>
+          </optgroup>
+          <optgroup label="Creative / Story">
+            <option value="poetic">Poetic</option>
+            <option value="storytelling">Storytelling</option>
+            <option value="documentary">Documentary</option>
+            <option value="medieval_fantasy">Medieval Fantasy</option>
+            <option value="scifi_log">Sci-Fi Log</option>
+          </optgroup>
+          <optgroup label="Format / Structure">
+            <option value="markdown_brief">Markdown Brief</option>
+          </optgroup>
+          <optgroup label="Unusual / Specialty">
+            <option value="eli5">ELI5</option>
+            <option value="interview_transcript">Interview Transcript</option>
+            <option value="faq">FAQ</option>
+            <option value="peer_review">Peer Review</option>
+            <option value="parody">Parody</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="fieldRow" id="intensityRow">
+        <label for="intensity">Intensity</label>
+        <select id="intensity">
+          <option value="subtle">Subtle</option>
+          <option value="moderate" selected>Moderate</option>
+          <option value="strong">Strong</option>
+          <option value="extreme">Extreme</option>
+        </select>
+      </div>
+
+      <!-- PROMPT MODE OPTIONS -->
+      <div class="fieldRow hidden" id="promptTargetRow">
+        <label for="promptTarget">Prompt Target</label>
+        <select id="promptTarget">
+          <option value="image" selected>Image Generation</option>
+          <option value="video">Video Generation</option>
+          <option value="text">Text Model</option>
+          <option value="code">Code Model</option>
+        </select>
+      </div>
+
+      <div class="fieldRow hidden" id="promptDepthRow">
+        <label for="promptDepth">Depth</label>
+        <select id="promptDepth">
+          <option value="tight">Tight (preserve my intent)</option>
+          <option value="enriched" selected>Enriched (add detail)</option>
+        </select>
+      </div>
+
+      <div class="textareaRow">
+        <label for="inputText">Your text</label>
+        <textarea id="inputText" placeholder="Type or paste the text you want transformed..."></textarea>
+      </div>
+
+      <div class="fieldRow btnRow">
+        <button id="btnTransform" class="smallBtn primary bigWide">Transform</button>
+      </div>
+    </section>
+
+    <!-- ============ STATUS ============ -->
+    <div id="statusLine" class="statusLine hidden"></div>
+
+    <!-- ============ OUTPUT ============ -->
+    <section class="group" id="outputGroup">
+      <div class="groupTitle">
+        Output
+        <span id="outputMeta" class="outputMeta"></span>
+      </div>
+
+      <div class="outputWrap">
+        <pre id="outputText">Output will appear here after you tap Transform.</pre>
+      </div>
+
+      <div class="fieldRow btnRow">
+        <button id="btnCopyOutput" class="smallBtn" disabled>Copy</button>
+        <button id="btnSaveOutput" class="smallBtn primary" disabled>Save as .txt</button>
+      </div>
+    </section>
+
+    <!-- ============ AI SETUP ============ -->
+    <section class="group">
+      <div class="groupTitle">AI Setup (OpenRouter)</div>
+
+      <div class="fieldRow">
+        <label for="openrouterKey">API Key</label>
+        <input type="password" id="openrouterKey" placeholder="sk-or-…" autocomplete="off" spellcheck="false">
+      </div>
+
+      <div class="fieldRow btnRow">
+        <button id="btnSaveKey" class="smallBtn primary">Save Key</button>
+        <button id="btnClearKey" class="smallBtn danger">Clear</button>
+        <button id="btnRefreshModels" class="smallBtn">Refresh Models</button>
+      </div>
+
+      <div class="fieldRow">
+        <label for="pricingFilter">Pricing</label>
+        <select id="pricingFilter">
+          <option value="all" selected>All</option>
+          <option value="free">Free only</option>
+          <option value="paid">Paid only</option>
+        </select>
+      </div>
+
+      <div class="fieldRow">
+        <label for="providerFilter">Provider</label>
+        <select id="providerFilter">
+          <option value="all" selected>All providers</option>
+        </select>
+      </div>
+
+      <div class="fieldRow">
+        <label for="modelList">Model</label>
+        <select id="modelList">
+          <option value="">Tap Refresh Models</option>
+        </select>
+      </div>
+
+      <div class="fieldRow">
+        <label>Model count</label>
+        <span id="modelCount" class="inlineValue">0</span>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<script src="transformer.js"></script>
+</body>
+</html>
