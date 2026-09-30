@@ -27,6 +27,9 @@
   const promptDepthRow     = document.getElementById("promptDepthRow");
   const promptDepth        = document.getElementById("promptDepth");
 
+  const txtFileInput       = document.getElementById("txtFileInput");
+  const btnLoadTxt         = document.getElementById("btnLoadTxt");
+
   const inputText          = document.getElementById("inputText");
   const btnTransform       = document.getElementById("btnTransform");
 
@@ -291,6 +294,36 @@
   }
 
   modeSelect.addEventListener("change", updateModeVisibility);
+
+  /* =======================================================================
+     LOAD TXT FILE
+     ======================================================================= */
+  btnLoadTxt.addEventListener("click", () => {
+    txtFileInput.click();
+  });
+
+  txtFileInput.addEventListener("change", (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (ev) => {
+      const content = ev.target.result || "";
+      inputText.value = content;
+      showStatus("Loaded " + file.name + " (" + content.length + " chars).", "success");
+      setTimeout(hideStatus, 2500);
+    };
+
+    reader.onerror = () => {
+      showStatus("Could not read that file.", "error");
+    };
+
+    reader.readAsText(file, "UTF-8");
+
+    // Reset so the same file can be loaded again later
+    txtFileInput.value = "";
+  });
 
   /* =======================================================================
      CLEAR
