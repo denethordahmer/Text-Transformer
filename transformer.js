@@ -48,9 +48,30 @@
   const modelCount         = document.getElementById("modelCount");
 
   /* =======================================================================
+     GENERATION SETTINGS
+     Temperature is derived from the intensity setting in Rewrite mode.
+     Higher intensity → higher temperature → more committed stylistic output.
+     Prompt mode uses a lower temperature for precision and structure.
+     ======================================================================= */
+  const TEMPERATURE_BY_INTENSITY = {
+    subtle:   0.6,
+    moderate: 0.8,
+    strong:   1.0,
+    extreme:  1.15
+  };
+
+  const PROMPT_MODE_TEMPERATURE = 0.6;
+
+  function getTemperature() {
+    if (modeSelect.value === "rewrite") {
+      return TEMPERATURE_BY_INTENSITY[intensity.value] || 0.8;
+    }
+    return PROMPT_MODE_TEMPERATURE;
+  }
+
+  /* =======================================================================
      STYLE DEFINITIONS — 19 total
      Each description is what actually goes into the AI prompt.
-     Merged styles are strengthened combinations of their former components.
      ======================================================================= */
   const STYLES = {
 
@@ -607,6 +628,7 @@
 
     try {
       const prompt = buildPrompt();
+      const temperature = getTemperature();
 
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -616,6 +638,7 @@
         },
         body: JSON.stringify({
           model: currentModel,
+          temperature: temperature,
           messages: [
             { role: "user", content: prompt }
           ]
@@ -646,7 +669,7 @@
 
       const chars = lastOutput.length;
       const words = lastOutput.split(/\s+/).filter(Boolean).length;
-      outputMeta.textContent = `${chars} chars · ${words} words · ${prettyModelName(currentModel)}`;
+      outputMeta.textContent = `${chars} chars · ${words} words · ${prettyModelName(currentModel)} · temp ${temperature}`;
 
       btnCopyOutput.disabled = false;
       btnSaveOutput.disabled = false;
