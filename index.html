@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#06101a">
 <title>Text Transformer</title>
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -179,5 +181,15 @@
 </div>
 
 <script src="transformer.js"></script>
+<script>
+  /* Offline install: quietly register the offline memory file.
+     If the browser is older and lacks this, everything still works —
+     the app just behaves as it always did. */
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(function (e) {
+      console.warn("Offline memory not started:", e);
+    });
+  }
+</script>
 </body>
 </html>
